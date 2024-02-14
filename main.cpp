@@ -1,9 +1,26 @@
 #include <iostream>
 
-struct Email
-{
+struct Email {
     std::string firstPart;
     std::string secondPart;
+};
+
+Email parseEmail(std::string email) {
+    Email result;
+    bool isAtSignFound = false;
+
+    for (char symbol: email) {
+        if (symbol == '@') {
+            isAtSignFound = true;
+        }
+        if (isAtSignFound == true) {
+            result.secondPart += symbol;
+        } else {
+            result.firstPart += symbol;
+        }
+    }
+
+    return result;
 }
 
 
@@ -11,21 +28,8 @@ int main() {
     std::string emailAddress;
     std::cout << "Enter your email address: ";
     std::cin >> emailAddress;
-    std::string firstPartOfTheAddress;
-    std::string secondPartOfTheAddress;
+    Email parsedEmail = parseEmail(emailAddress);
 
-
-    bool isAtSignFound = false;
-    for (char symbol: emailAddress) {
-        if (symbol == '@') {
-            isAtSignFound = true;
-        }
-        if (isAtSignFound == true) {
-            secondPartOfTheAddress += symbol;
-        }else{
-            firstPartOfTheAddress += symbol;
-        }
-    }
-    std::cout << firstPartOfTheAddress << std::endl;
-    std::cout << secondPartOfTheAddress;
+    std::cout << parsedEmail.firstPart << std::endl;
+    std::cout << parsedEmail.secondPart << std::endl;
 }
