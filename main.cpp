@@ -32,12 +32,11 @@ bool checkEmail(Email parsedEmail) {
     }
 
     for (int i = 0; i < parsedEmail.firstPart.length(); i++) {
-        if (parsedEmail.firstPart[i] == '.' && parsedEmail.firstPart[i + 1] == '.') {
+        if (parsedEmail.firstPart[0] == '.' || (parsedEmail.firstPart[i] == '.' && i + 1 <= parsedEmail.firstPart.length()
+        && parsedEmail.firstPart[i + 1] == '.')) {
             return false;
         }
-    }
-
-    for (char symbol: parsedEmail.firstPart) {
+        char symbol = parsedEmail.firstPart[i];
         if (!isalnum(symbol) && symbol != '!' && symbol != '#' && symbol != '$' && symbol != '%' && symbol != '&' &&
             symbol != '\''
             && symbol != '*' && symbol != '+' && symbol != '-' && symbol != '/' && symbol != '=' && symbol != '?'
@@ -46,6 +45,7 @@ bool checkEmail(Email parsedEmail) {
             return false;
         }
     }
+
     return true;
 }
 
