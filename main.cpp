@@ -3,10 +3,12 @@
 struct Email {
     std::string firstPart;
     std::string secondPart;
+    std::string originalEmail;
 };
 
 Email parseEmail(std::string email) {
     Email result;
+    result.originalEmail = email;
     bool isAtSignFound = false;
 
     for (char symbol: email) {
@@ -37,7 +39,7 @@ bool checkSymbols(std::string partOfTheAddress) {
             symbol != '\''
             && symbol != '*' && symbol != '+' && symbol != '-' && symbol != '/' && symbol != '=' && symbol != '?'
             && symbol != '^' && symbol != '_' && symbol != '`' && symbol != '{' && symbol != '|' && symbol != '}'
-            && symbol != '~' && symbol != '.' && symbol == ' ') {
+            && symbol != '~' && symbol != '.') {
             return false;
         }
     }
@@ -46,12 +48,23 @@ bool checkSymbols(std::string partOfTheAddress) {
 }
 
 bool checkEmail(Email parsedEmail) {
-    if ((parsedEmail.firstPart.empty() || parsedEmail.firstPart.length() <= 64)
-        && !checkSymbols(parsedEmail.firstPart)) {
+    int k = 0;
+    for (char symbols : parsedEmail.originalEmail) {
+        if (symbols == '@'){
+            k++;
+            if (k != 1) {
+                return false;
+            }
+        }
+    }
+
+
+    if ((parsedEmail.firstPart.empty() || parsedEmail.firstPart.length() > 64)
+        || !checkSymbols(parsedEmail.firstPart)) {
         return false;
     }
 
-    if (parsedEmail.secondPart.empty() && !checkSymbols(parsedEmail.secondPart)) {
+    if (parsedEmail.secondPart.empty() || !checkSymbols(parsedEmail.secondPart)) {
         return false;
     }
 
@@ -62,7 +75,7 @@ bool checkEmail(Email parsedEmail) {
 int main() {
     std::string emailAddress;
     std::cout << "Enter your email address: ";
-    std::cin >> emailAddress;
+    getline(std::cin, emailAddress);
     Email parsedEmail = parseEmail(emailAddress);
 
     if (checkEmail(parsedEmail)) {
