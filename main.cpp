@@ -13,10 +13,13 @@ Email parseEmail(std::string email) {
         if (symbol == '@') {
             isAtSignFound = true;
         }
-        if (isAtSignFound == true) {
-            result.secondPart += symbol;
-        } else {
+
+        if (!isAtSignFound) {
             result.firstPart += symbol;
+        } else {
+            if (symbol != '@') {
+                result.secondPart += symbol;
+            }
         }
     }
 
