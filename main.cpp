@@ -26,24 +26,33 @@ Email parseEmail(std::string email) {
     return result;
 }
 
-bool checkEmail(Email parsedEmail) {
-    if (parsedEmail.firstPart.empty() || parsedEmail.firstPart.length() > 64) {
-        return false;
-    }
-
-    for (int i = 0; i < parsedEmail.firstPart.length(); i++) {
-        if (parsedEmail.firstPart[0] == '.' || (parsedEmail.firstPart[i] == '.' && i + 1 <= parsedEmail.firstPart.length()
-        && parsedEmail.firstPart[i + 1] == '.')) {
+bool checkSymbols(std::string partOfTheAddress) {
+    for (int i = 0; i < partOfTheAddress.length(); i++) {
+        if (partOfTheAddress[0] == '.' || (partOfTheAddress[i] == '.' && i + 1 <= partOfTheAddress.length()
+                                           && partOfTheAddress[i + 1] == '.')) {
             return false;
         }
-        char symbol = parsedEmail.firstPart[i];
+        char symbol = partOfTheAddress[i];
         if (!isalnum(symbol) && symbol != '!' && symbol != '#' && symbol != '$' && symbol != '%' && symbol != '&' &&
             symbol != '\''
             && symbol != '*' && symbol != '+' && symbol != '-' && symbol != '/' && symbol != '=' && symbol != '?'
             && symbol != '^' && symbol != '_' && symbol != '`' && symbol != '{' && symbol != '|' && symbol != '}'
-            && symbol != '~' && symbol != '.') {
+            && symbol != '~' && symbol != '.' && symbol == ' ') {
             return false;
         }
+    }
+
+    return true;
+}
+
+bool checkEmail(Email parsedEmail) {
+    if ((parsedEmail.firstPart.empty() || parsedEmail.firstPart.length() <= 64)
+        && !checkSymbols(parsedEmail.firstPart)) {
+        return false;
+    }
+
+    if (parsedEmail.secondPart.empty() && !checkSymbols(parsedEmail.secondPart)) {
+        return false;
     }
 
     return true;
