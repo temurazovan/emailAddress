@@ -49,8 +49,8 @@ bool checkSymbols(std::string partOfTheAddress) {
 
 bool checkEmail(Email parsedEmail) {
     int k = 0;
-    for (char symbols : parsedEmail.originalEmail) {
-        if (symbols == '@'){
+    for (char symbols: parsedEmail.originalEmail) {
+        if (symbols == '@') {
             k++;
             if (k != 1) {
                 return false;
@@ -64,7 +64,10 @@ bool checkEmail(Email parsedEmail) {
         return false;
     }
 
-    if (parsedEmail.secondPart.empty() || !checkSymbols(parsedEmail.secondPart)) {
+    char lastSymbol = parsedEmail.secondPart[parsedEmail.secondPart.length() - 1];;
+
+    if (parsedEmail.secondPart.empty() || !checkSymbols(parsedEmail.secondPart)
+        || lastSymbol == '-') {
         return false;
     }
 
