@@ -31,7 +31,7 @@ Email parseEmail(std::string email) {
 
 bool allowedSymbolsForSecondPart(std::string string) {
     for (char symbol: string) {
-        if (!isalnum(symbol) && symbol != '.') {
+        if (!isalnum(symbol) && symbol != '.' && symbol != '-') {
             return false;
         }
     }
@@ -89,8 +89,37 @@ bool checkEmail(Email parsedEmail) {
     return true;
 }
 
+//void test() {
+//    std::string emails[] = {
+//            "simple@example.com",
+//            "very.common@example.com",
+//            "disposable.style.email.with+symbol@example.com",
+//            "other.email-with-hyphen@example.com",
+//            "fully-qualified-domain@example.com",
+//            "user.name+tag+sorting@example.com",
+//            "x@example.com",
+//            "example-indeed@strange-example.com",
+//            "admin@mailserver",
+//            "example@s.example",
+//            "mailhost!username@example.org",
+//            "user%example.com@example.org",
+//            "John..Doe@example.com",
+//            "Abc.example.com",
+//            "A@b@c@example.com",
+//            "a\"b(c)d,e:f;g<h>i[j\\k]l@example.com",
+//            "1234567890123456789012345678901234567890123456789012345678901234+x@example.com",
+//            "i_like_underscore@but_its_not_allow_in _this_part.example.com",
+//    };
+//
+//    for (auto email: emails) {
+//        Email parsedEmail = parseEmail(email);
+//        std::cout << email << " - " << (checkEmail(parsedEmail) ? "yes" : "no" ) << std::endl;
+//    }
+//}
 
 int main() {
+    // test(); return 0;
+
     std::string emailAddress;
     std::cout << "Enter your email address: ";
     getline(std::cin, emailAddress);
@@ -102,4 +131,5 @@ int main() {
         std::cout << "No";
     }
 
+    return 0;
 }
