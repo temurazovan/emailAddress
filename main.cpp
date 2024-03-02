@@ -28,9 +28,10 @@ Email parseEmail(std::string email) {
     return result;
 }
 
-bool isalnumstring(std::string string) {
+
+bool allowedSymbolsForSecondPart(std::string string) {
     for (char symbol: string) {
-        if (!isalnum(symbol)) {
+        if (!isalnum(symbol) && symbol != '.') {
             return false;
         }
     }
@@ -75,8 +76,13 @@ bool checkEmail(Email parsedEmail) {
 
     char lastSymbol = parsedEmail.secondPart[parsedEmail.secondPart.length() - 1];;
 
-    if (parsedEmail.secondPart.empty() || parsedEmail.secondPart.length() > 63
-        || (!isalnumstring(parsedEmail.secondPart) || lastSymbol == '-')) {
+
+    if (
+            parsedEmail.secondPart.empty()
+            || parsedEmail.secondPart.length() > 63
+            || !allowedSymbolsForSecondPart(parsedEmail.secondPart)
+            || lastSymbol == '-'
+            ) {
         return false;
     }
 
